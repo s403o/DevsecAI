@@ -1,4 +1,4 @@
-﻿import { RepositoryGuideline } from '../types/index.js';
+import { RepositoryGuideline } from '../types/index.js';
 
 export class RepoMemoryStore {
   private static defaultGuidelines: RepositoryGuideline[] = [

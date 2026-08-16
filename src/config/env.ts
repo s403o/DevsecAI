@@ -1,12 +1,15 @@
-﻿import { z } from 'zod';
+import { z } from 'zod';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+/** Shared fallback secret. Fine for local demos, refused in production. */
+const DEV_WEBHOOK_SECRET = 'devsec-test-secret-key-12345';
+
 const envSchema = z.object({
   PORT: z.coerce.number().default(3000),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  GITHUB_WEBHOOK_SECRET: z.string().default('devsec-test-secret-key-12345'),
+  GITHUB_WEBHOOK_SECRET: z.string().default(DEV_WEBHOOK_SECRET),
   GITHUB_TOKEN: z.string().optional(),
   GEMINI_API_KEY: z.string().optional(),
   OPENAI_API_KEY: z.string().optional(),
@@ -43,3 +46,7 @@ export const config: EnvConfig = envSchema.parse({
   MIN_CONFIDENCE_THRESHOLD: process.env.MIN_CONFIDENCE_THRESHOLD,
   MAX_DIFF_LINES: process.env.MAX_DIFF_LINES,
 });
+
+if (config.NODE_ENV === 'production' && config.GITHUB_WEBHOOK_SECRET === DEV_WEBHOOK_SECRET) {
+  throw new Error('GITHUB_WEBHOOK_SECRET must be set in production; the shared dev secret is public.');
+}

@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "devsec-ai",
   "version": "2.0.0",
   "description": "Autonomous Multi-Agent GitHub PR Reviewer & Security Auditing Platform",
@@ -37,6 +37,6 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
-    "vitest": "^2.1.8"
+    "vitest": "^3.2.7"
   }
 }

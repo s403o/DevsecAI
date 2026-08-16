@@ -116,7 +116,7 @@ app.post('/api/webhooks/github', async (c) => {
   const event = c.req.header('x-github-event') || 'unknown';
   const rawBody = await c.req.text();
 
-  if (config.GITHUB_TOKEN && !GitHubWebhookHandler.verifySignature(rawBody, signature)) {
+  if (!GitHubWebhookHandler.verifySignature(rawBody, signature)) {
     return c.json({ error: 'Invalid HMAC signature' }, 401);
   }
 
